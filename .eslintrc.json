@@ -12,6 +12,7 @@
     "radix": "off",
     "import/newline-after-import": "off",
     "consistent-return": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "prefer-destructuring": "off"
   }
 }
