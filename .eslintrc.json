@@ -13,6 +13,8 @@
     "import/newline-after-import": "off",
     "consistent-return": "off",
     "no-param-reassign": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "prefer-const": "off",
+    "no-shadow": "off"
   }
 }
