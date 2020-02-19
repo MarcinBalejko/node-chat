@@ -84,6 +84,7 @@
         if (socket !== undefined) {
           console.log('Connected to socket...');
 
+          // Handle Output
           socket.on('output', function(data) {
             // console.log(data);
             if (data.length) {
@@ -95,6 +96,30 @@
                 messages.appendChild(message);
                 messages.insertBefore(message, messages.firstChild);
               }
+            }
+          });
+
+          // Get status from server
+          socket.on('status', function(data) {
+            // Get message status
+            setStatus(typeof data === 'object' ? data.message : data);
+
+            // If status is clear, clear text
+            if (data.clear) {
+              textarea.value = '';
+            }
+          });
+
+          // Handle Input
+          textarea.addEventListener('keydown', function(event) {
+            if (event.which === 13 && event.shiftKey == false) {
+              // Emit to server input
+              socket.emit('input', {
+                name: username.value,
+                message: textarea.value
+              });
+
+              event.preventDefault();
             }
           });
         }
