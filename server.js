@@ -13,7 +13,7 @@ mongo.connect(
     console.log('MongoDB connected...');
 
     // Connect to Socket.io
-    client.on('connection', function() {
+    client.on('connection', function(socket) {
       let chat = db.collection('chats');
 
       // Create function to send status
