@@ -1,19 +1,22 @@
 const mongo = require('mongodb').MongoClient;
-const client = require('socket.io').listen(4000).sockets;
+const socketClient = require('socket.io').listen(4000).sockets;
+
+const dbname = 'mongochat';
 
 // Connect to mongo
 mongo.connect(
-  'mongodb://127.0.0.1/mongochat',
+  `mongodb://127.0.0.1/${dbname}`,
   { useUnifiedTopology: true },
-  function(err, db) {
+  function(err, client) {
     if (err) {
       throw err;
     }
+    const db = client.db(dbname);
 
     console.log('MongoDB connected...');
 
     // Connect to Socket.io
-    client.on('connection', function(socket) {
+    socketClient.on('connection', function(socket) {
       let chat = db.collection('chats');
 
       // Create function to send status
@@ -47,7 +50,7 @@ mongo.connect(
         } else {
           // Insert message
           chat.insert({ name: name, message: message }, function() {
-            client.emit('output', [data]);
+            socketClient.emit('output', [data]);
 
             // Send status object
             sendStatus({
