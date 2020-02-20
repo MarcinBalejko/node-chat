@@ -49,7 +49,7 @@ mongo.connect(
           sendStatus('Please enter a name and message');
         } else {
           // Insert message
-          chat.insert({ name: name, message: message }, function() {
+          chat.insertOne({ name: name, message: message }, function() {
             socketClient.emit('output', [data]);
 
             // Send status object
@@ -64,7 +64,7 @@ mongo.connect(
       // Handle clear
       socket.on('clear', function(data) {
         // Remove all chats from collection
-        chat.remove({}, function() {
+        chat.removeMany({}, function() {
           // Emit cleared
           socket.emit('cleared');
         });
